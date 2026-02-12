@@ -229,13 +229,13 @@ challenges/001-maior-de-idade/
 #### Option 2: Local with Clojure CLI
 ```bash
 cd challenges/001-maior-de-idade/
-clj -M solution.clj
+clj -M 001.clj
 ```
 
 #### Option 3: Interactive REPL
 ```bash
 clj
-(load-file "challenges/001-maior-de-idade/solution.clj")
+(load-file "challenges/001-maior-de-idade/001.clj")
 (-test)
 ```
 
