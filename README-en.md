@@ -25,24 +25,24 @@ Each level contains challenges of the three fundamental code types found in real
 #### 1. **Pure Functions** 🔵
 Pure functions that always return the same result for the same input.
 ```clojure
-(defn maior-de-idade? [idade]
-  (>= idade 18))
+(defn adult? [age]
+  (>= age 18))
 ```
 
 #### 2. **Adapters** 🟡
 Transformations between different data representations (domain ↔ external API).
 ```clojure
 (defn user-wire->domain [{:keys [name age]}]
-  {:nome name :idade age})
+  {:name name :age age})
 ```
 
 #### 3. **Controllers** 🟢
 Orchestration of flows and use cases (fetch → validate → process → return).
 ```clojure
-(defn buscar-usuario [db user-id]
+(defn fetch-user [db user-id]
   (if (= (:id db) user-id)
-    {:status :sucesso :usuario db}
-    {:status :erro :mensagem "Usuário não encontrado"}))
+    {:status :success :user db}
+    {:status :error :message "User not found"}))
 ```
 
 ### Challenge Distribution
@@ -99,7 +99,7 @@ Level 18: Complex Pure Function + Complex Adapter + Complex Controller
 Each challenge is in its own folder and contains two files:
 
 ```
-challenges/001-maior-de-idade/
+challenges/001-check-adult/
 ├── README.md      # Problem description, examples, requirements
 └── solution.clj   # Solution + detailed explanations
 ```
@@ -228,14 +228,14 @@ challenges/001-maior-de-idade/
 
 #### Option 2: Local with Clojure CLI
 ```bash
-cd challenges/001-maior-de-idade/
-clj -M solution.clj
+cd challenges/001-check-adult/
+clj -M 001.clj
 ```
 
 #### Option 3: Interactive REPL
 ```bash
 clj
-(load-file "challenges/001-maior-de-idade/solution.clj")
+(load-file "challenges/001-check-adult/001.clj")
 (-test)
 ```
 
@@ -253,44 +253,44 @@ clj
 
 #### 🔵 Pure Function: Check Legal Age
 ```clojure
-(maior-de-idade? 18) ;; => true
-(maior-de-idade? 17) ;; => false
+(adult? 18) ;; => true
+(adult? 17) ;; => false
 
 ;; Implementation
-(defn maior-de-idade?
+(defn adult?
   "Checks if age is >= 18"
-  [idade]
-  (>= idade 18))
+  [age]
+  (>= age 18))
 ```
 
 #### 🟡 Adapter: Transform User Wire→Domain
 ```clojure
-(user-wire->domain {:name "João" :age 25})
-;; => {:nome "João" :idade 25}
+(user-wire->domain {:name "John" :age 25})
+;; => {:name "John" :age 25}
 
 ;; Implementation
 (defn user-wire->domain
-  "Adapts external format (English) to domain (Portuguese)"
+  "Adapts external format to domain format"
   [{:keys [name age]}]
-  {:nome name
-   :idade age})
+  {:name name
+   :age age})
 ```
 
 #### 🟢 Controller: Fetch User with Validation
 ```clojure
-(buscar-usuario {:id 1 :nome "Ana"} 1)
-;; => {:status :sucesso :usuario {:id 1 :nome "Ana"}}
+(fetch-user {:id 1 :name "Ana"} 1)
+;; => {:status :success :user {:id 1 :name "Ana"}}
 
-(buscar-usuario {:id 1 :nome "Ana"} 999)
-;; => {:status :erro :mensagem "Usuário não encontrado"}
+(fetch-user {:id 1 :name "Ana"} 999)
+;; => {:status :error :message "User not found"}
 
 ;; Implementation
-(defn buscar-usuario
+(defn fetch-user
   "Fetches user by ID and returns result with status"
   [db user-id]
   (if (= (:id db) user-id)
-    {:status :sucesso :usuario db}
-    {:status :erro :mensagem "Usuário não encontrado"}))
+    {:status :success :user db}
+    {:status :error :message "User not found"}))
 ```
 
 ---
@@ -299,26 +299,26 @@ clj
 
 #### 🔵 Pure Function: Extract Email Domain
 ```clojure
-(extrair-dominio "user@example.com")
-;; => {:valido? true :dominio "example.com"}
+(extract-domain "user@example.com")
+;; => {:valid? true :domain "example.com"}
 
-(extrair-dominio "invalid-email")
-;; => {:valido? false :dominio nil}
+(extract-domain "invalid-email")
+;; => {:valid? false :domain nil}
 ```
 
 #### 🟡 Adapter: API→Domain with Coercion
 ```clojure
-(api->pedido {:order_id "123" :total "99.90" :created "2024-01-15"})
-;; => {:pedido-id 123 :total 99.90 :criado-em #inst "2024-01-15"}
+(api->order {:order_id "123" :total "99.90" :created "2024-01-15"})
+;; => {:order-id 123 :total 99.90 :created-at #inst "2024-01-15"}
 ```
 
 #### 🟢 Controller: Create Order with Validations
 ```clojure
-(criar-pedido db {:itens [] :total 0})
-;; => {:status :erro :razao :pedido-vazio}
+(create-order db {:items [] :total 0})
+;; => {:status :error :reason :empty-order}
 
-(criar-pedido db {:itens [{:id 1}] :total 10})
-;; => {:status :sucesso :pedido-id 456}
+(create-order db {:items [{:id 1}] :total 10})
+;; => {:status :success :order-id 456}
 ```
 
 ---
@@ -327,31 +327,31 @@ clj
 
 #### 🔵 Pure Function: Complex Risk Analysis
 ```clojure
-(analisar-risco {:idade 17 :score 800 :historico :bom})
-;; => {:aprovado? false :razao :menor-de-idade}
+(analyze-risk {:age 17 :score 800 :history :good})
+;; => {:approved? false :reason :underage}
 
-(analisar-risco {:idade 25 :score 300 :historico :ruim})
-;; => {:aprovado? false :razao :score-baixo}
+(analyze-risk {:age 25 :score 300 :history :bad})
+;; => {:approved? false :reason :low-score}
 
-(analisar-risco {:idade 25 :score 800 :historico :bom})
-;; => {:aprovado? true :razao :analise-automatizada}
+(analyze-risk {:age 25 :score 800 :history :good})
+;; => {:approved? true :reason :automated-analysis}
 ```
 
 #### 🟡 Adapter: Bidirectional Query String Parser
 ```clojure
-(query-string->map "name=João&age=25&city=São Paulo")
-;; => {:name "João" :age "25" :city "São Paulo"}
+(query-string->map "name=John&age=25&city=New York")
+;; => {:name "John" :age "25" :city "New York"}
 
-(map->query-string {:name "João" :age 25 :cidade nil})
-;; => "name=João&age=25" ;; ignores nil fields
+(map->query-string {:name "John" :age 25 :city nil})
+;; => "name=John&age=25" ;; ignores nil fields
 ```
 
 #### 🟢 Controller: Complete Transactional Flow
 ```clojure
-(processar-transacao contexto {:valor 1000 :tipo :pix})
+(process-transaction context {:amount 1000 :type :pix})
 ;; Validates balance → Checks limits → Applies business rules
 ;; → Records transaction → Publishes event
-;; => {:status :sucesso :transacao-id "abc-123" :novo-saldo 500}
+;; => {:status :success :transaction-id "abc-123" :new-balance 500}
 ```
 
 ## 🔗 Inspiration from References
@@ -461,13 +461,16 @@ tlt-clojure-90-challenges-90-days/
 ├── README.md                           # Project overview (Portuguese)
 ├── README-en.md                        # Project overview (English)
 ├── challenges/
-│   ├── 001-maior-de-idade/             # Level 1 - Pure Function
+│   ├── 001-check-adult/                # Level 1 - Pure Function
+│   │   ├── 001.clj
 │   │   ├── README.md
 │   │   └── solution.clj
-│   ├── 002-usuario-wire-domain/        # Level 1 - Adapter
+│   ├── 002-user-wire-domain/           # Level 1 - Adapter
+│   │   ├── 002.clj
 │   │   ├── README.md
 │   │   └── solution.clj
-│   ├── 003-buscar-usuario/             # Level 1 - Controller
+│   ├── 003-fetch-user/                 # Level 1 - Controller
+│   │   ├── 003.clj
 │   │   ├── README.md
 │   │   └── solution.clj
 │   ├── 004-XXX/                        # Level 2 - Pure Function
@@ -476,7 +479,7 @@ tlt-clojure-90-challenges-90-days/
 │   ├── ...
 │   ├── 088-XXX/                        # Level 18 - Pure Function
 │   ├── 089-XXX/                        # Level 18 - Adapter
-│   └── 090-fluxo-transacional/         # Level 18 - Controller
+│   └── 090-transactional-flow/         # Level 18 - Controller
 │       ├── README.md
 │       └── solution.clj
 └── references/
@@ -519,6 +522,6 @@ This project is constantly evolving. Suggestions for new challenges or improveme
 
 **Ready to start?** 🚀
 
-Begin with [challenge 001](challenges/001-maior-de-idade/) and progress at your own pace. Each challenge is designed to teach a specific concept while preparing you for professional Clojure patterns!
+Begin with [challenge 001](challenges/001-check-adult/) and progress at your own pace. Each challenge is designed to teach a specific concept while preparing you for professional Clojure patterns!
 
 **Happy learning journey!** 🎉
