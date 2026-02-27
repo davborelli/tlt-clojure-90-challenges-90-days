@@ -1,8 +1,7 @@
 (ns calculate-average-age)
 
 (defn average-age
-  [users]
-  )
+  [users])
 
 (defn- tst []
   (assert (=
@@ -15,7 +14,7 @@
 
 (assert (=
 (average-age [])
-0))
+0.0))
 
   "SUCCESS")
 
