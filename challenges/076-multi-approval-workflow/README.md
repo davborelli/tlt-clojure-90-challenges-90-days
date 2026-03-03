@@ -42,7 +42,7 @@ Implement a pure function that determines the approval workflow required for a r
 **Priority Order (highest to lowest):**
 
 1. **Emergency Critical**: Risk :critical + :is-emergency → Board approval required
-2. **High Amount**: Amount > 1000000 → Board approval, documentation required
+2. **High Amount**: Amount > 100000 → Board approval, documentation required
 3. **Critical Risk**: Risk :critical → VP + CFO dual approval
 4. **High Risk + High Amount**: Risk :high + amount > 500000 → Director + VP dual approval
 5. **CEO Override**: Requester role :ceo → Auto-approved (unless critical risk)
