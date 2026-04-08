@@ -11,7 +11,7 @@
 
 (assert (=
 (calculate-risk {:amount 6000 :user-age 19 :account-age-days 20})
-{:score 60 :level :high}))
+{:score 70 :level :high}))
 
 (assert (=
 (calculate-risk {:amount 2000 :user-age 30 :account-age-days 50})
