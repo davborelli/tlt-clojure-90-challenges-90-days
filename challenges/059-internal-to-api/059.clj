@@ -1,8 +1,25 @@
-(ns internal-to-api)
+(ns internal-to-api 
+  (:require
+    [clojure.string :as str]))
 
 (defn internal->api
   [internal-product]
-  )
+  (let [{productId     :product-id
+         productName   :name
+         category      :category
+         basePrice     :price
+         currency      :currency
+         stockLevel    :stock
+         ware-id       :warehouse-id
+         ware-location :warehouse-location} internal-product]
+    {:productId productId
+     :productDetails {:productName productName
+                      :category (name category)
+                      :pricing {:basePrice basePrice
+                                :currency (str/upper-case (name currency))}}
+     :inventory      {:stockLevel stockLevel
+                      :warehouse {:id ware-id
+                                  :location ware-location}}}))
 
 (defn- tst []
   (assert (=
