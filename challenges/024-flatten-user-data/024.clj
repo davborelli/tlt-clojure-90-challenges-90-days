@@ -1,8 +1,19 @@
 (ns flatten-user-data)
 
+;; (defn flatten-profile
+;;   [user-data]
+;;   (let [name  (get-in user-data [:user :name])
+;;         age   (get-in user-data [:user :age])
+;;         email (get-in user-data [:user :email])]
+;;     {:name name :age age :email email}))
+
+;; (defn flatten-profile
+;;   [user-data]
+;;   (get user-data :user))
+
 (defn flatten-profile
-  [user-data]
-  )
+  [{:keys [user]}]
+  user)
 
 (defn- tst []
   (assert (=

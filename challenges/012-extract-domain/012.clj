@@ -1,8 +1,29 @@
-(ns extract-domain)
+(ns extract-domain
+  (:require [clojure.string :as str]))
 
+;; (defn extract-domain
+;;   [email]
+;;   (let [parts (str/split email #"@")]
+;;     (if (>= (count parts) 2)
+;;       (last parts)
+;;       "")))
+
+;; (defn extract-domain
+;;   [email]
+;;   (if email
+;;     (let [parts (str/split email #"@")]
+;;       (if (>= (count parts) 2)
+;;         (second parts)
+;;         ""))
+;;     ""))
+
+;; Versão mais idiomática
 (defn extract-domain
   [email]
-  )
+  (or (some-> email
+              (str/split #"@")
+              second)
+      ""))
 
 (defn- tst []
   (assert (=

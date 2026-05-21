@@ -1,8 +1,17 @@
 (ns filter-adults)
 
+(defn is-legal-age?
+  "Check if the person is of legal"
+  [age]
+  (>= age 18))
+
+;; (defn filter-adults
+;;   [users]
+;;   (filter (comp is-legal-age? :age) users))
+
 (defn filter-adults
   [users]
-  )
+  (filter #(is-legal-age? (:age %)) users))
 
 (defn- tst []
   (assert (=

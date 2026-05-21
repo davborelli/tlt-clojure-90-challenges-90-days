@@ -1,8 +1,29 @@
 (ns flatten-nested-user)
 
 (defn flatten-user-profile
-  [profile-data]
-  )
+  [{:keys [user-id personal contact] :as profile-data}]
+  (let [id        user-id
+        name               (:name personal)
+        birthdate          (:birthdate personal)
+        email              (get-in contact [:email :primary])
+        email-verified     (get-in contact [:email :verified])
+        mobile-phone       (get-in contact [:phone :mobile])
+        phone-country-code (get-in contact [:phone :country-code])
+        street             (get-in contact [:address :street])
+        city               (get-in contact [:address :city])
+        zip                (get-in contact [:address :zip])
+        country            (get-in contact [:address :country])]
+    {:id id
+     :name name
+     :birthdate birthdate
+     :email email
+     :email-verified email-verified
+     :mobile-phone mobile-phone
+     :phone-country-code phone-country-code
+     :street street
+     :city city
+     :zip zip
+     :country country}))
 
 (defn- tst []
   (assert (=

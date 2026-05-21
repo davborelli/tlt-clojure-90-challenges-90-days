@@ -1,8 +1,19 @@
 (ns user-wire-to-domain)
 
+;; (defn wire->domain
+;;   [wire-user]
+;;   (let [{:keys [firstName lastName emailAddress]} wire-user]
+;;     {:first-name firstName
+;;      :last-name  lastName
+;;      :email      emailAddress}))
+
 (defn wire->domain
+  "Convert response data to internal data"
   [wire-user]
-  )
+  (let [{:keys  [firstName lastName emailAddress]} wire-user]
+    {:first-name firstName
+     :last-name lastName
+     :email emailAddress}))
 
 (defn- tst []
   (assert (=

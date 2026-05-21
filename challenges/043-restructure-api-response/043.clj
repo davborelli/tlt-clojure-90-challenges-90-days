@@ -2,7 +2,13 @@
 
 (defn restructure-response
   [api-response]
-  )
+  (let [users (get-in api-response [:data :users])]
+    (->> users
+         (map (fn [user]
+                {:user-id (:id user)
+                 :name    (get-in user [:profile :name])
+                 :email   (get-in user [:profile :contact :email])
+                 :phone   (get-in user [:profile :contact :phone])})))))
 
 (defn- tst []
   (assert (=

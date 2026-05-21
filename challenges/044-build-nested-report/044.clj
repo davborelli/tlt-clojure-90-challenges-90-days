@@ -2,7 +2,14 @@
 
 (defn build-report
   [transaction-data]
-  )
+  {:id (:transaction-id transaction-data)
+   :financial {:amount (:amount transaction-data)
+               :fee    (:fee transaction-data)
+               :net    (- (:amount transaction-data) (:fee transaction-data))}
+   :user {:name  (:user-name transaction-data)
+          :email (:user-email transaction-data)}
+   :merchant {:name     (:merchant-name transaction-data)
+              :category (:merchant-category transaction-data)}})
 
 (defn- tst []
   (assert (=

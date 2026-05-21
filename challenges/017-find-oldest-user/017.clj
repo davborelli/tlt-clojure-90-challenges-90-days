@@ -1,8 +1,16 @@
 (ns find-oldest-user)
 
+;; Usando reduce
+;; (defn find-oldest
+;;   [users]
+;;   (reduce
+;;    #(if (> (:age %1) (:age %2)) %1 %2)
+;;    users))
+
+;; Usando max-key
 (defn find-oldest
   [users]
-  )
+  (apply max-key :age users))
 
 (defn- tst []
   (assert (=

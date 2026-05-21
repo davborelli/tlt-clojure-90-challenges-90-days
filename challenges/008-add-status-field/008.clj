@@ -1,8 +1,10 @@
 (ns add-status-field)
 
+(def default-fields [:status :active] )
+
 (defn add-status
   [user]
-  )
+  (apply assoc user default-fields))
 
 (defn- tst []
   (assert (=

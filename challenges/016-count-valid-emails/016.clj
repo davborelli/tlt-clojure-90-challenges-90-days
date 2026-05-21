@@ -1,8 +1,16 @@
-(ns count-valid-emails)
+(ns count-valid-emails
+  (:require [clojure.string :as str]))
+
+(defn valid-email?
+  [email]
+  (and (str/includes? email "@")
+       (not (str/blank? email))))
 
 (defn count-valid-emails
   [emails]
-  )
+  (->> emails
+       (filter valid-email?)
+       (count)))
 
 (defn- tst []
   (assert (=

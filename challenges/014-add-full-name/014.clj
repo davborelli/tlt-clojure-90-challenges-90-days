@@ -1,8 +1,21 @@
 (ns add-full-name)
 
+;; (defn add-full-name
+;;   [user]
+;;   (let [first-name (:first-name user)
+;;         last-name (:last-name user)]
+;;     (assoc user :full-name (str first-name " " last-name))))
+
+;; Versão mais idiomática
+;; (defn add-full-name 
+;;   [{:keys [first-name last-name] :as user}]
+;;   (-> user
+;;       (assoc :full-name (str first-name " " last-name))))
+
 (defn add-full-name
-  [user]
-  )
+  [{:keys [first-name last-name] :as user}]
+  (-> user
+      (assoc :full-name (str first-name " " last-name))))
 
 (defn- tst []
   (assert (=

@@ -1,8 +1,9 @@
-(ns uppercase-names)
+(ns uppercase-names
+  (:require [clojure.string :as str]))
 
 (defn uppercase-names
   [names]
-  )
+  (mapv str/upper-case names))
 
 (defn- tst []
   (assert (=

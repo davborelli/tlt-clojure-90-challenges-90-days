@@ -2,7 +2,21 @@
 
 (defn categorize-transaction
   [transaction]
-  )
+  (let [type              (get-in transaction [:type])
+        amount            (get-in transaction [:amount])
+        merchant-category (get-in transaction [:merchant-category])
+        priority          (get-in transaction [:priority])]
+    (or
+     (when (true? priority)                         :urgent)
+     (when (> amount 5000)                          :high-value)
+     (when (and (= type :transfer) (> amount 1000)) :high-value)
+     (when (= merchant-category "travel")           :travel)
+     (when (= merchant-category "restaurant")       :dining)
+     (when (= merchant-category "retail")           :shopping)
+     (when (= type :bill-payment)                   :bills)
+     :other)))
+
+(categorize-transaction {:type :purchase :amount 100 :merchant-category "restaurant" :priority false})
 
 (defn- tst []
   (assert (=

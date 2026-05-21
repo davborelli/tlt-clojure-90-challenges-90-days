@@ -1,8 +1,21 @@
 (ns calculate-risk-score-simple)
 
 (defn calculate-risk
-  [transaction]
-  )
+  [{:keys [amount user-age account-age-days]}]
+  (let [amount-score      (+ (if (> amount 10000) 30 0)
+                             (if (> amount 5000)  20 0)
+                             (if (> amount 1000)  10 0))
+        age-score         (if (< user-age 21) 15 0)
+        account-age-score (cond
+                            (< account-age-days 30) 25
+                            (< account-age-days 90) 10
+                            :else 0)
+        score               (+ amount-score age-score account-age-score)
+        level               (cond
+                              (<= score 20) :low
+                              (<= score 40) :medium
+                              :else         :high)]
+    {:score score :level level}))
 
 (defn- tst []
   (assert (=

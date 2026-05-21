@@ -2,7 +2,7 @@
 
 (defn birthday
   [user]
-  )
+  (update user :age inc))
 
 (defn- tst []
   (assert (=

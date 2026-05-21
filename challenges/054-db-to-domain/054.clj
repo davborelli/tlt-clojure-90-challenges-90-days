@@ -1,8 +1,17 @@
-(ns db-to-domain)
+(ns db-to-domain 
+  (:require
+    [clojure.string :as str]))
 
 (defn db->domain
   [db-record]
-  )
+  (reduce-kv
+   (fn [acc k v]
+     (let [domain-key (keyword (str/replace (name k) #"_" "-"))]
+       (if (= k :account_status)
+         (assoc acc domain-key (keyword v))
+         (assoc acc domain-key v))))
+   {}
+   db-record))
 
 (defn- tst []
   (assert (=

@@ -4,6 +4,22 @@
   [schema data]
   )
 
+(map
+ (fn [name] (str "Hello " name))
+ ["Inez" "Maria" "Fred" "Joao"])
+
+(map
+ #(str "Hello " %)
+ ["Gilberto" "Janele" "David" "Karen" "Erick"])
+
+(do
+  "foo"
+  "bar")
+
+(do
+  (println "foo")
+  "bar")
+
 (defn- tst []
   (let [email-validator (fn [value] (and (string? value) (.contains value "@")))]
     (assert (=

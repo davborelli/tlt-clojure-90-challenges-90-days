@@ -1,7 +1,9 @@
-(ns valid-email)
+(ns valid-email
+  (:require [clojure.string :as str]))
 
 (defn valid-email?
   [email]
+  (str/includes? email "@")
   )
 
 (defn- tst []

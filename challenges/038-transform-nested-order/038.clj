@@ -2,7 +2,20 @@
 
 (defn transform-order
   [order-data]
-  )
+  (let [id              (get-in order-data [:order-id])
+        customer-name   (get-in order-data [:customer :personal :name])
+        customer-email  (get-in order-data [:customer :personal :email])
+        customer-street (get-in order-data [:customer :shipping :address :street])
+        customer-city   (get-in order-data [:customer :shipping :address :city])
+        shipping-zip    (get-in order-data [:customer :shipping :address :zip])
+        total           (get-in order-data [:total])]
+    {:id id
+     :customer-name customer-name
+     :customer-email customer-email
+     :shipping-street customer-street
+     :shipping-city customer-city
+     :shipping-zip shipping-zip
+     :total (Double/parseDouble total)}))
 
 (defn- tst []
   (assert (=

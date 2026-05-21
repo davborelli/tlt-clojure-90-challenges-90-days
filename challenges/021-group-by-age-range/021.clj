@@ -1,8 +1,18 @@
 (ns group-by-age-range)
 
+(defn age-category
+  [{:keys [age]}]
+  (cond
+    (<= age 13) :child
+    (<= age 17) :teen
+    (<= age 64) :adult
+    :else      :senior))
+
 (defn group-by-age
   [users]
-  )
+  (merge
+   {:child [] :teen [] :adult [] :senior []}
+   (group-by age-category users)))
 
 (defn- tst []
   (assert (=

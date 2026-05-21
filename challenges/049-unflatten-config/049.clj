@@ -1,8 +1,18 @@
-(ns unflatten-config)
+(ns unflatten-config 
+  (:require
+    [clojure.string :as str]))
+
+(def config {:db "database" :api "api" :log "logging"})
 
 (defn unflatten-config
   [flat-config]
-  )
+  (reduce-kv (fn [acc k v]
+               (let [[first-part & rest-parts] (str/split (name k) #"-")
+                     first-level               (keyword (get config (keyword first-part) first-part))
+                     second-level              (keyword (str/join "-" rest-parts))]
+                 (assoc-in acc [first-level second-level] v)))
+             {}
+             flat-config))
 
 (defn- tst []
   (assert (=

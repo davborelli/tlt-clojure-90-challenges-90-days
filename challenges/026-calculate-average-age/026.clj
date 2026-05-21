@@ -1,7 +1,22 @@
 (ns calculate-average-age)
 
+;; (defn average-age
+;;   [users]
+;;   (if (empty? users)
+;;     0.0
+;;     (let [total (reduce
+;;                  (fn [acc {:keys [age]}]
+;;                    (+ acc age))
+;;                  0
+;;                  users)]
+;;       (double (/ total (count users))))))
+
 (defn average-age
-  [users])
+  [users]
+  (if (empty? users)
+    0.0
+    (double (/ (apply + (map :age users))
+               (count users)))))
 
 (defn- tst []
   (assert (=

@@ -1,8 +1,12 @@
 (ns all-adults)
 
+;; (defn all-adults?
+;;   [users]
+;;   (every? #(>= (:age %) 18) users))
+
 (defn all-adults?
   [users]
-  )
+  (every? #(> (:age %) 18) users))
 
 (defn- tst []
   (assert (=

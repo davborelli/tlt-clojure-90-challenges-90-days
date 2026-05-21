@@ -1,11 +1,38 @@
-(ns bidirectional-transform)
+(ns bidirectional-transform 
+  (:require
+    [clojure.string :as str]))
+
+(defn keyword->camel [k]
+  (let [parts (str/split (name k) #"-")]
+    (->> parts
+         (map-indexed (fn [i part]
+                        (if (= i 0)
+                          part
+                          (str/capitalize part))))
+         (apply str))))
+
+(defn camel->keyword [s]
+  (->> s
+       (re-seq #"[A-Z][a-z]*|[a-z]+")
+       (map str/lower-case)
+       (str/join "-")
+       keyword))
 
 (defn domain->wire
   [domain-data]
-  )
+  (reduce-kv
+   (fn [acc k v]
+     (assoc acc (keyword->camel k) v))
+   {}
+   domain-data))
 
 (defn wire->domain
   [wire-data]
+  (reduce-kv
+   (fn [acc k v]
+     (assoc acc (camel->keyword k) v))
+   {}
+   wire-data)
   )
 
 (defn- tst []

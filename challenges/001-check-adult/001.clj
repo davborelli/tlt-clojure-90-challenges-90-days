@@ -2,7 +2,7 @@
 
 (defn adult?
   [age]
-  )
+  (>= age 18))
 
 (defn- tst []
   (assert (= (adult? 18) true))

@@ -1,8 +1,26 @@
 (ns extract-transform-product)
 
+(defn- round2
+  [n]
+  (/ (Math/round (* n 100.0)) 100.0))
+
 (defn transform-product
   [product-data]
-  )
+  (let [id               (get-in product-data [:product-id])
+        name             (get-in product-data [:details :name])
+        category         (get-in product-data [:details :category])
+        price            (Double/parseDouble (get-in product-data [:pricing :base-price]))
+        discount-percent (Double/parseDouble (get-in product-data [:pricing :discount-percent]))
+        discounted-price (round2 (* price (- 1 (/ discount-percent 100))))
+        stock            (Integer/parseInt (get-in product-data [:inventory :stock]))
+        warehouse        (get-in product-data [:inventory :warehouse])]
+    {:id               id
+     :name             name
+     :category         category
+     :price            price
+     :discounted-price discounted-price
+     :stock            stock
+     :warehouse        warehouse}))
 
 (defn- tst []
   (assert (=

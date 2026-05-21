@@ -1,8 +1,12 @@
-(ns parse-date-string)
+(ns parse-date-string
+  (:require [clojure.string :as str]))
 
 (defn parse-date
   [date-string]
-  )
+  (let [[year month day] (str/split date-string #"-")]
+    {:year (parse-long year)
+     :month (parse-long month)
+     :day (parse-long day)}))
 
 (defn- tst []
   (assert (=

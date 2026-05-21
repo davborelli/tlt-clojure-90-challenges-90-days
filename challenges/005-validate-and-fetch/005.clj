@@ -1,8 +1,21 @@
 (ns validate-and-fetch)
 
+(defn valid-user?
+  [user-id]
+  (and (number? user-id) (> user-id 0)))
+
+(defn fetch-user
+  [user-id]
+  {:id user-id
+   :name (str "User " user-id)})
+
 (defn validate-and-fetch
   [user-id]
-  )
+    (if (valid-user? user-id)
+      {:status :success
+       :user (fetch-user user-id)}
+      {:status :error
+       :message "Invalid user ID"}))
 
 (defn- tst []
   (assert (=

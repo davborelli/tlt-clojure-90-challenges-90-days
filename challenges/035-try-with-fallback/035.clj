@@ -2,7 +2,12 @@
 
 (defn try-fetch-with-fallback
   [user-id]
-  )
+  (let [user          {:id user-id :name (str "User " user-id)}
+        error-message {:status :error :message "User not found in any source"}]
+    (or
+     (when (and (even? user-id) (<= user-id 100)) {:status :success :source :primary   :user user})
+     (when (and (even? user-id) (> user-id 100))  {:status :success :source :secondary :user user})
+     error-message)))
 
 (defn- tst []
   (assert (=

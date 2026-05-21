@@ -1,8 +1,20 @@
 (ns keywords-to-strings)
 
+;; (defn keywords->strings
+;;   [data]
+;;   (reduce-kv
+;;    (fn [acc k v]
+;;      (assoc acc (name k) v))
+;;    {}
+;;    data))
+
 (defn keywords->strings
   [data]
-  )
+  (reduce-kv
+   (fn [acc k v]
+     (assoc acc (name k) v))
+   {}
+   data))
 
 (defn- tst []
   (assert (=

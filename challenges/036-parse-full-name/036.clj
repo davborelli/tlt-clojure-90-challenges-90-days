@@ -1,8 +1,17 @@
-(ns parse-full-name)
+(ns parse-full-name
+  (:require [clojure.string :as str]))
 
 (defn parse-full-name
   [full-name]
-  )
+  (let [names      (str/split full-name #"\s+")
+        names-size (count names)]
+    (cond
+      (= names-size 1) {:first-name (first names) :last-name (first names)}
+      (= names-size 2) {:first-name (first names) :last-name (last names)}
+      :else {:first-name  (first names)
+             :middle-name (str/join " " (rest (butlast names)))
+             :last-name   (last names)}))) 
+ 
 
 (defn- tst []
   (assert (=

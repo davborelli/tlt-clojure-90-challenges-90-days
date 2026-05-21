@@ -1,8 +1,15 @@
 (ns sum-ages)
 
+;; (defn sum-ages
+;;   [users]
+;;   (reduce + 0 (map :age users)))
+
+; Versão ainda mais idiomática
 (defn sum-ages
   [users]
-  )
+  (->> users
+       (map :age)
+       (reduce +)))
 
 (defn- tst []
   (assert (=

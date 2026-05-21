@@ -2,7 +2,8 @@
 
 (defn extract-domain
   [url]
-  )
+  (let [regex #"(?:https?://)?([^/:]+)"]
+    (some-> (re-find regex url) second)))
 
 (defn- tst []
   (assert (=

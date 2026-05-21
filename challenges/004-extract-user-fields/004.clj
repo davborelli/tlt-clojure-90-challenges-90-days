@@ -2,6 +2,11 @@
 
 (defn extract-contact-info
   [user]
+  (let [{:keys [name email]} user]
+    {
+     :name name
+     :email email
+    })
   )
 
 (defn- tst []

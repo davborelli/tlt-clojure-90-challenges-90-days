@@ -1,8 +1,13 @@
 (ns validate-process-order)
 
 (defn process-order
-  [order-data]
-  )
+  [{:keys [customer-id product-id quantity total]}]
+  (or
+   (when (<= customer-id 0)                           {:status :error :message "Invalid customer ID"})
+   (when (<= product-id 0)                            {:status :error :message "Invalid product ID"})
+   (when (not (and (> quantity 0) (<= quantity 100))) {:status :error :message "Invalid quantity"})
+   (when (< total 10)                                 {:status :error :message "Order total too low"})
+   {:status :success :order-id (str "ORD-" customer-id "-" product-id)}))
 
 (defn- tst []
   (assert (=

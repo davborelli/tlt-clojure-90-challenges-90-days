@@ -1,8 +1,17 @@
 (ns parse-numbers)
 
+;; (defn parse-numbers
+;;   [user-data]
+;;   (-> user-data
+;;       (update :age #(Integer/parseInt %))
+;;       (update :score #(Integer/parseInt %))))
+
+;; Versão mais idiomática
 (defn parse-numbers
   [user-data]
-  )
+  (reduce #(update %1 %2 (fn [v] (Integer/parseInt v)))
+          user-data
+          [:age :score]))
 
 (defn- tst []
   (assert (=

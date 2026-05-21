@@ -1,8 +1,14 @@
 (ns extract-nested-data)
 
+;; (defn extract-location
+;;   [user-data]
+;;   {:city (get-in user-data [:user :contact :address :city])
+;;    :zip  (get-in user-data [:user :contact :address :zip])})
+
 (defn extract-location
   [user-data]
-  )
+  {:city (get-in user-data [:user :contact :address :city])
+   :zip (get-in user-data [:user :contact :address :zip])})
 
 (defn- tst []
   (assert (=

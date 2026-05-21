@@ -1,8 +1,10 @@
 (ns remove-sensitive-fields)
 
+(def sensitive-fields [:password :ssn])
+
 (defn remove-sensitive
   [user]
-  )
+  (apply dissoc user sensitive-fields))
 
 (defn- tst []
   (assert (=

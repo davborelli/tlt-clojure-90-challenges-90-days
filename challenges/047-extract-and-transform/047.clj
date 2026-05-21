@@ -2,7 +2,20 @@
 
 (defn extract-transaction-summary
   [transaction]
-  )
+  (let [transaction-id      (:id transaction)
+        customer-name       (get-in transaction [:customer :name])
+        customer-tier       (get-in transaction [:customer :tier])
+        payment-amount      (get-in transaction [:payment :amount])
+        payment-currency    (get-in transaction [:payment :currency])
+        is-premium-customer (if (or (= customer-tier :gold) (= customer-tier :platinum)) true false)
+        is-high-value       (if (> payment-amount 1000) true false)]
+    {:transaction-id      transaction-id
+     :customer-name       customer-name
+     :customer-tier       customer-tier
+     :payment-amount      payment-amount
+     :payment-currency    payment-currency
+     :is-premium-customer is-premium-customer
+     :is-high-value       is-high-value}))
 
 (defn- tst []
   (assert (=

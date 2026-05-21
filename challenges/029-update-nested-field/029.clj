@@ -2,7 +2,7 @@
 
 (defn increment-age
   [user-data]
-  )
+  (update-in user-data [:user :details :age] inc))
 
 (defn- tst []
   (assert (=

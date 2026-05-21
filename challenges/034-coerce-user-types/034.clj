@@ -1,8 +1,11 @@
 (ns coerce-user-types)
 
 (defn coerce-user-types
-  [user-data]
-  )
+  [{:keys [name age active role]}]
+  {:name (str name)
+   :age (parse-long age)
+   :active (parse-boolean active)
+   :role (keyword role)})
 
 (defn- tst []
   (assert (=

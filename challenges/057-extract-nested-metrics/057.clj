@@ -1,8 +1,32 @@
 (ns extract-nested-metrics)
 
+(defn round2 
+  [v]
+  (/ (Math/round (* v 100.0)) 100.0))
+
 (defn extract-metrics
   [analytics-report]
-  )
+  (let [{:keys [user-id]} analytics-report
+        metrics              (:metrics analytics-report)
+        {eng-daily  :daily
+         eng-weekly :weekly} (:engagement metrics)
+        {rev-daily  :daily
+         rev-weekly :weekly} (:revenue metrics)]
+    {:user-id                 user-id
+     :daily-views             (:views eng-daily)
+     :daily-clicks            (:clicks eng-daily)
+     :daily-shares            (:shares eng-daily)
+     :weekly-views            (:views eng-weekly)
+     :weekly-clicks           (:clicks eng-weekly)
+     :weekly-shares           (:shares eng-weekly)
+     :daily-revenue           (:amount rev-daily)
+     :daily-transactions      (:transactions rev-daily)
+     :weekly-revenue          (:amount rev-weekly)
+     :weekly-transactions     (:transactions rev-weekly)
+     :total-daily-engagement  (+ (:views eng-daily) (:clicks eng-daily) (:shares eng-daily))
+     :total-weekly-engagement (+ (:views eng-weekly) (:clicks eng-weekly) (:shares eng-weekly))
+     :daily-click-rate        (round2 (* 100 (/ (:clicks eng-daily) (:views eng-daily))))
+     :weekly-click-rate       (round2 (* 100 (/ (:clicks eng-weekly) (:views eng-weekly))))}))
 
 (defn- tst []
   (assert (=

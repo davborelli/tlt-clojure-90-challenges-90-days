@@ -1,8 +1,21 @@
-(ns snake-to-kebab)
+(ns snake-to-kebab
+  (:require [clojure.string :as str]))
+
+;; (defn snake->kebab
+;;   [data]
+;;   (update-keys data (fn [k]
+;;                       (-> k
+;;                           name
+;;                           (str/replace "_" "-")
+;;                           keyword))))
 
 (defn snake->kebab
   [data]
-  )
+  (update-keys data (fn [k]
+                      (-> k
+                          name
+                          (str/replace "_" "-")
+                          keyword))))
 
 (defn- tst []
   (assert (=

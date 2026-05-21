@@ -2,7 +2,15 @@
 
 (defn fetch-validate-enrich
   [user-id]
-  )
+  (if (< user-id 1)
+    {:status :error :message "Invalid user ID"}
+    (let [user (-> {:id       user-id
+                    :name     (str "User " user-id)
+                    :email    (str "user" user-id "@example.com")
+                    :password "secret123"}
+                   (dissoc :password)
+                   (assoc :fetched-at "2024-01-15T10:00:00"))]
+      {:status :success :user user})))
 
 (defn- tst []
   (assert (=
