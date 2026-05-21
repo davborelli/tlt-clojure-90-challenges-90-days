@@ -1,8 +1,28 @@
 (ns calculate-risk-score)
 
+(defn check-is-critital
+  [data]
+  (when (:has-fraud-history data)
+    :critical))
+
+(defn check-is-highest
+  [{:keys [amount user-verified account-age-days]}]
+  (when (and (> amount 10000) (or (not user-verified) (< account-age-days 30)))
+    :high))
+
+(defn check-is-medium
+  [{:keys [amount user-verified account-age-days]}]
+  (or
+   (when (and (> amount 5000) (not user-verified))         :medium)
+   (when (> amount 10000)                                  :medium)
+   (when (and (not user-verified) (< account-age-days 90)) :medium)))
+
 (defn calculate-risk-score
   [transaction]
-  )
+  (let [checks [check-is-critital check-is-highest check-is-medium]]
+    (or
+     (some #(% transaction) checks)
+     :low)))
 
 (defn- tst []
   (assert (=
