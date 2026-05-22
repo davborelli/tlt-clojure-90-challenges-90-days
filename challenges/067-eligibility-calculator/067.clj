@@ -1,8 +1,50 @@
 (ns eligibility-calculator)
 
+(def risk-multipliers
+  {:critical 3.0
+   :high     2.0
+   :medium   1.5
+   :low      1.0})
+
 (defn calculate-eligibility
   [applicant]
-  )
+  (let [{:keys [age
+                health-status
+                has-preexisting
+                occupation-risk
+                coverage-amount
+                smoker]} applicant
+        reason (cond
+                 (> age 75)                   "Age exceeds maximum"
+                 (< age 18)                   "Below minimum age"
+                 (and
+                  (= health-status :poor)
+                  has-preexisting)            "Health risk too high"
+                 (and
+                  (= occupation-risk :high)
+                  (> coverage-amount 500000)) "Occupation risk too high for coverage")]
+    (if reason
+      {:eligible false
+       :risk-level nil
+       :premium-multiplier nil
+       :reason reason}
+      (let [risk-level (cond
+                         (or
+                          (= health-status :poor)
+                          (and smoker (> age 60)))       :critical
+                         (or
+                          (= health-status :fair)
+                          (= occupation-risk :high)
+                          (and smoker (> age 45)))       :high
+                         (or (= health-status :good)
+                             (= occupation-risk :medium)
+                             (> coverage-amount 300000)) :medium
+                         :else                           :low)
+            premium-multiplier (risk-multipliers risk-level)]
+        {:eligible true
+         :risk-level risk-level
+         :premium-multiplier premium-multiplier
+         :reason "Approved"}))))
 
 (defn- tst []
   (assert (=
