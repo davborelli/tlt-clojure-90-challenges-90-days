@@ -1,8 +1,39 @@
-(ns json-conditional-fields)
+(ns json-conditional-fields 
+  (:require
+    [clojure.string :as str]))
+
+(defn kebab->cammel
+  [word]
+  (let [[first-word & rest-words] (str/split word #"-")]
+    (apply str first-word (map str/capitalize rest-words))))
+
+(defn assoc-some [m k v] (if (some? v) (assoc m k v) m))
+
+;; (defn build-json-response
+;;   [response-data]
+;;   (reduce-kv (fn [acc k v]
+;;                (assoc-some acc (keyword (kebab->cammel (name k))) (if (= k :status)
+;;                                                                     (name v)
+;;                                                                     v)))
+;;              {}
+;;              response-data))
 
 (defn build-json-response
-  [response-data]
-  )
+  [{:keys [status
+           user-id
+           success-message
+           error-message
+           data
+           metadata]}]
+  (-> {:status (name status)
+       :userId user-id}
+      (assoc-some :successMessage success-message)
+      (assoc-some :errorMessage   error-message)
+      (assoc-some :data           data)
+      (assoc-some :metadata       metadata)))
+
+(build-json-response
+ {:status :pending :user-id "U789" :success-message nil :error-message nil :data nil :metadata nil})
 
 (defn- tst []
   (assert (=
